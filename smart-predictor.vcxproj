@@ -147,11 +147,12 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="csv.cpp" />
     <ClCompile Include="Result.cpp" />
     <ClCompile Include="smart-predictor.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\fast-cpp-csv-parser\csv.h" />
+    <ClInclude Include="csv.h" />
     <ClInclude Include="Result.h" />
   </ItemGroup>
   <ItemGroup>
