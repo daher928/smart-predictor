@@ -7,7 +7,7 @@
 #include <vector>
 #include "Result.h"
 
-#define ARCHIVE_FILENAME "Lotto.csv"
+#define ARCHIVE_FILENAME "Data.csv"
 
 
 bool checkIfExists(std::vector<Result>* arr, Result* res) {
@@ -26,7 +26,7 @@ bool checkIfExists(std::vector<Result>* arr, Result* res) {
 
 void readArchive(std::vector<Result>* arr) {
     cout << "Reading archive ..." << endl;
-    io::CSVReader<7> in("Lotto.csv");
+    io::CSVReader<7> in(ARCHIVE_FILENAME);
     in.read_header(io::ignore_no_column, "1", "2", "3", "4", "5", "6", "+");
     int a, b, c, d, e, f, plus;
     while (in.read_row(a, b, c, d, e, f, plus)) {
@@ -40,9 +40,7 @@ void readArchive(std::vector<Result>* arr) {
 }
 int main() {
     std::vector<Result> resultsHistory;
-
     readArchive(&resultsHistory);
-    
     while (true) {
         cout << "Enter your guess: ";
         int arr[7] = {-1,-1,-1,-1,-1,-1,-1};
