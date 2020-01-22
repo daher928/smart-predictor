@@ -2,41 +2,47 @@
 //
 
 #include <iostream>
-#include "../fast-cpp-csv-parser/csv.h"
+#include "csv.h"
 #include <fstream>
 #include <vector>
 #include "Result.h"
 
 #define ARCHIVE_FILENAME "Lotto.csv"
 
-void readArchive(std::vector<Result> *arr) {
-    io::CSVReader<7> in("Lotto.csv");
-    in.read_header(io::ignore_no_column, "1", "2", "3", "4", "5", "6", "+");
-    int a, b, c, d, e, f, plus;
-    while (in.read_row(a, b, c, d, e, f, plus)) {
-        Result* res = new Result(a, b, c, d, e, f, plus);
-        (*arr).push_back(*res);
-    }
-}
 
 bool checkIfExists(std::vector<Result>* arr, Result* res) {
     if (arr == NULL || res == NULL) {
         return false;
     }
 
-    if (std::find((*arr).begin(), (*arr).end(), *res) != (*arr).end())
+    if (std::find((*arr).begin(), (*arr).end(), *res) != (*arr).end()) {
+        cout << "EXISTS: ";
+        res->print();
         return true;
+    }
     
     return false;
 }
 
+void readArchive(std::vector<Result>* arr) {
+    cout << "Reading archive ..." << endl;
+    io::CSVReader<7> in("Lotto.csv");
+    in.read_header(io::ignore_no_column, "1", "2", "3", "4", "5", "6", "+");
+    int a, b, c, d, e, f, plus;
+    while (in.read_row(a, b, c, d, e, f, plus)) {
+        Result* res = new Result(a, b, c, d, e, f, plus);
+        if (!res->validateResult() || checkIfExists(arr, res)) {
+            continue;
+        }
+        (*arr).push_back(*res);
+    }
+    std::cout << "Done.\n" << "History size=" << arr->size() << endl;
+}
 int main() {
     std::vector<Result> resultsHistory;
 
     readArchive(&resultsHistory);
     
-    std::cout << "SUCCESS\n" << "History size=" << resultsHistory.size() << endl;
-
     while (true) {
         cout << "Enter your guess: ";
         int arr[7] = {-1,-1,-1,-1,-1,-1,-1};
@@ -48,6 +54,8 @@ int main() {
         }
 
         Result *res = new Result(arr[0], arr[1], arr[2], arr[3], arr[4], arr[5], arr[6]);
+        if (!res->validateResult())
+            continue;
         cout << (checkIfExists(&resultsHistory, res)? "EXISTS" : "DOESN'T EXIST") << endl;
     }
     
