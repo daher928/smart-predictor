@@ -13,9 +13,6 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
-    <Filter Include="Source Files\fast-csv-reader">
-      <UniqueIdentifier>{eb8bff43-89fe-4ae9-893a-022b3303f770}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Licenses">
       <UniqueIdentifier>{d48095c8-a7cc-4ee1-bdae-ad39f2119717}</UniqueIdentifier>
     </Filter>
