@@ -7,8 +7,7 @@
 #include <vector>
 #include "Result.h"
 
-#define ARCHIVE_FILENAME "Data.csv"
-
+constexpr auto ARCHIVE_FILENAME = "Data.csv";
 
 bool checkIfExists(std::vector<Result>* arr, Result* res) {
     if (arr == NULL || res == NULL) {
@@ -16,8 +15,7 @@ bool checkIfExists(std::vector<Result>* arr, Result* res) {
     }
 
     if (std::find((*arr).begin(), (*arr).end(), *res) != (*arr).end()) {
-        cout << "EXISTS: ";
-        res->print();
+        cout << "EXISTS: " << res << endl;
         return true;
     }
     
@@ -28,9 +26,10 @@ void readArchive(std::vector<Result>* arr) {
     cout << "Reading archive ..." << endl;
     io::CSVReader<7> in(ARCHIVE_FILENAME);
     in.read_header(io::ignore_no_column, "1", "2", "3", "4", "5", "6", "+");
-    int a, b, c, d, e, f, plus;
-    while (in.read_row(a, b, c, d, e, f, plus)) {
-        Result* res = new Result(a, b, c, d, e, f, plus);
+    int a, b, c, d, e, f, additional;
+    while (in.read_row(a, b, c, d, e, f, additional)) {
+        int resArr[7] = { a,b,c,d,e,f,additional };
+        Result* res = new Result(resArr);
         if (!res->validateResult() || checkIfExists(arr, res)) {
             continue;
         }
@@ -43,20 +42,19 @@ int main() {
     readArchive(&resultsHistory);
     while (true) {
         cout << "Enter your guess: ";
-        int arr[7] = {-1,-1,-1,-1,-1,-1,-1};
-        for (int i = 0; i < 7; ++i)
+        int arr[NUMBERS_COUNT] = {-1,-1,-1,-1,-1,-1,-1};
+        for (int i = 0; i < NUMBERS_COUNT; ++i)
         {
             int a;
             cin >> a;
             arr[i] = a;
         }
 
-        Result *res = new Result(arr[0], arr[1], arr[2], arr[3], arr[4], arr[5], arr[6]);
+        Result *res = new Result(arr);
         if (!res->validateResult())
             continue;
         cout << (checkIfExists(&resultsHistory, res)? "EXISTS" : "DOESN'T EXIST") << endl;
     }
-    
 }
 // Run program: Ctrl + F5 or Debug > Start Without Debugging menu
 // Debug program: F5 or Debug > Start Debugging menu
